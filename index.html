@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazing Launcher</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Loading -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-logo">AMAZING<span>RP</span></div>
+      <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div id="app" class="app hidden">
+
+    <!-- Titlebar -->
+    <div class="titlebar">
+      <div class="titlebar-logo">AMAZING<span>RP</span></div>
+      <div class="titlebar-controls">
+        <button class="tb-btn" id="btn-credits" title="Разработчики">
+          <span class="material-icons-round">code</span>
+        </button>
+        <button class="tb-btn" id="btn-minimize"><span class="material-icons-round">remove</span></button>
+        <button class="tb-btn close" id="btn-close"><span class="material-icons-round">close</span></button>
+      </div>
+    </div>
+
+    <!-- Update Banner -->
+    <div id="update-banner" class="update-banner hidden">
+      <div class="update-banner-content">
+        <div class="update-banner-left">
+          <div class="update-icon-wrap">
+            <span class="material-icons-round update-icon">system_update</span>
+          </div>
+          <div class="update-info">
+            <div class="update-title">Доступна новая версия</div>
+            <div class="update-version-text">v<span id="update-version"></span></div>
+          </div>
+        </div>
+        <div class="update-banner-actions">
+          <button class="update-btn" id="update-download-btn">
+            <span class="material-icons-round">download</span>
+            Скачать
+          </button>
+          <button class="update-btn update-btn-primary hidden" id="update-restart-btn">
+            <span class="material-icons-round">refresh</span>
+            Перезапустить
+          </button>
+          <button class="update-btn update-btn-close" id="update-dismiss-btn" title="Скрыть">
+            <span class="material-icons-round">close</span>
+          </button>
+        </div>
+      </div>
+      <div class="update-progress-wrap hidden" id="update-progress-wrap">
+        <div class="update-progress-bar">
+          <div class="update-progress-fill" id="update-progress-fill"></div>
+        </div>
+        <div class="update-progress-text" id="update-progress-text">Загрузка... 0%</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="content-tabs">
+      <button class="content-tab active" data-tab="main">
+        <span class="material-icons-round">home</span>
+        Основное
+      </button>
+      <button class="content-tab" data-tab="replacements">
+        <span class="material-icons-round">face</span>
+        Заменки
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="main-content" id="tab-main">
+
+      <!-- Left -->
+      <div class="left-panel">
+        <div class="panel-scroll">
+
+          <!-- Nicknames -->
+          <div class="section animate-in">
+            <div class="section-head">
+              <div class="section-title">Никнеймы</div>
+              <div class="section-label" id="nick-server-label"></div>
+            </div>
+            <div class="nick-list" id="nick-list">
+              <div class="nick-empty" id="nick-empty">Нет сохранённых ников</div>
+            </div>
+            <div class="nick-add">
+              <input type="text" class="nick-input" id="nick-input" placeholder="Имя_Фамилия" spellcheck="false" autocomplete="off" maxlength="30">
+              <button class="nick-add-btn" id="nick-add-btn" title="Добавить"><span class="material-icons-round">add</span></button>
+            </div>
+            <div class="nick-error" id="nick-error"></div>
+          </div>
+
+          <!-- Game Path -->
+          <div class="section animate-in" style="animation-delay:.05s">
+            <div class="section-head">
+              <div class="section-title">Путь к игре</div>
+            </div>
+            <div class="path-row">
+              <div class="path-display" id="game-path">Не указан</div>
+              <button class="btn-browse" id="btn-browse">Обзор</button>
+            </div>
+          </div>
+
+          <!-- ASI Loader -->
+          <div class="section animate-in" style="animation-delay:.1s">
+            <label class="toggle-row" for="asi-toggle">
+              <div class="toggle-info">
+                <div class="toggle-label">Подгрузка ASI</div>
+                <div class="toggle-hint">Инжект .asi/.dll из папки asi</div>
+              </div>
+              <div class="toggle-switch">
+                <input type="checkbox" id="asi-toggle">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </div>
+            </label>
+          </div>
+
+          <!-- ASI Store button -->
+          <button class="btn-store animate-in" style="animation-delay:.15s" id="btn-store">
+            <span class="material-icons-round">storefront</span>
+            <span>Магазин ASI</span>
+            <span class="material-icons-round store-arrow">chevron_right</span>
+          </button>
+
+        </div>
+
+        <!-- Play -->
+        <div class="play-wrap">
+          <button class="btn-play" id="btn-play" disabled>
+            <span class="material-icons-round">play_arrow</span>
+            ИГРАТЬ
+          </button>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="right-panel">
+        <div class="servers-head">
+          <div class="servers-title">СЕРВЕРЫ</div>
+          <div class="servers-count"><strong>12</strong> серверов</div>
+        </div>
+        <div class="servers-grid" id="servers-grid"></div>
+      </div>
+
+    </div>
+
+    <!-- Replacements Tab -->
+    <div class="replacements-content hidden" id="tab-replacements">
+      <div class="replacements-left">
+        <div class="replacements-head">
+          <div class="replacements-title">СКИНЫ</div>
+          <div class="replacements-hint">Выберите скин для просмотра заменок</div>
+        </div>
+        <div class="skins-list" id="skins-list"></div>
+      </div>
+      <div class="replacements-right">
+        <div class="replacements-right-head">
+          <div class="replacements-right-title" id="replacements-skin-name">—</div>
+          <div class="replacements-right-back hidden" id="replacements-back">
+            <span class="material-icons-round">arrow_back</span> К скинам
+          </div>
+        </div>
+        <div class="replacements-grid" id="replacements-grid"></div>
+        <div class="replacements-empty hidden" id="replacements-empty">
+          <span class="material-icons-round">face</span>
+          <div>Выберите скин слева</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="status-bar">
+      <div class="status-left">
+        <span class="status-dot"></span>
+        <span id="status-text">Готов</span>
+      </div>
+      <div class="status-right">Amazing Launcher v1.0 · 2026</div>
+    </div>
+
+    <!-- Credits Modal -->
+    <div class="modal-overlay hidden" id="credits-overlay">
+      <div class="modal modal-credits">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="material-icons-round">code</span>
+            Разработчики
+          </div>
+          <button class="modal-close" id="credits-close">
+            <span class="material-icons-round">close</span>
+          </button>
+        </div>
+        <div class="modal-body credits-body">
+          <div class="credits-intro">
+            <div class="credits-logo">AMAZING<span>RP</span></div>
+            <div class="credits-subtitle">LAUNCHER</div>
+            <div class="credits-tagline">Создано с любовью к проекту</div>
+          </div>
+
+          <div class="credits-label">Команда</div>
+
+          <div class="credits-list">
+            <div class="credit-card credit-card--lead">
+              <div class="credit-icon" style="background: rgba(74, 222, 128, 0.1);">
+                <span class="material-icons-round" style="color: #4ade80;">terminal</span>
+              </div>
+              <div class="credit-info">
+                <div class="credit-name">cassius <span class="credit-alias">(filament)</span></div>
+                <div class="credit-role">Разработка, UX/UI, архитектура</div>
+              </div>
+            </div>
+
+            <div class="credit-card">
+              <div class="credit-icon" style="background: rgba(167, 139, 250, 0.1);">
+                <span class="material-icons-round" style="color: #a78bfa;">brush</span>
+              </div>
+              <div class="credit-info">
+                <div class="credit-name">sweafty</div>
+                <div class="credit-role">Визуальный дизайн, графика</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="credits-footer">
+            <div class="credits-version">Amazing Launcher v1.0</div>
+            <button class="credits-update-btn" id="credits-check-update" title="Проверить обновления">
+              <span class="material-icons-round">system_update</span>
+              Проверить обновления
+            </button>
+            <div class="credits-year">© 2026 Amazing RP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASI Store Modal -->
+    <div class="modal-overlay hidden" id="store-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="material-icons-round">storefront</span>
+            Магазин ASI
+          </div>
+          <button class="modal-close" id="store-close">
+            <span class="material-icons-round">close</span>
+          </button>
+        </div>
+        <div class="modal-body" id="store-list"></div>
+      </div>
+    </div>
+
+    <!-- ASI Detail Modal -->
+    <div class="modal-overlay hidden" id="asi-detail-overlay">
+      <div class="modal modal-asi-detail">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="material-icons-round" id="asi-detail-icon">extension</span>
+            <span id="asi-detail-title">Детали плагина</span>
+          </div>
+          <button class="modal-close" id="asi-detail-close">
+            <span class="material-icons-round">close</span>
+          </button>
+        </div>
+        <div class="modal-body asi-detail-body">
+          <div class="asi-detail-content">
+            <div class="asi-detail-header">
+              <div class="asi-detail-icon-large">
+                <span class="material-icons-round" id="asi-detail-icon-large">extension</span>
+              </div>
+              <div class="asi-detail-header-info">
+                <div class="asi-detail-name" id="asi-detail-name">Название плагина</div>
+                <div class="asi-detail-version" id="asi-detail-version">v1.0</div>
+              </div>
+            </div>
+            <div class="asi-detail-section">
+              <div class="asi-detail-label">Описание</div>
+              <div class="asi-detail-description" id="asi-detail-description">Описание плагина...</div>
+            </div>
+            <div class="asi-detail-section">
+              <div class="asi-detail-label">Файл</div>
+              <div class="asi-detail-file" id="asi-detail-file">plugin.asi</div>
+            </div>
+          </div>
+          <div class="asi-detail-actions">
+            <button type="button" class="btn-asi-install" id="asi-detail-install">
+              <span class="material-icons-round">download</span>
+              Установить
+            </button>
+            <button type="button" class="btn-asi-remove hidden" id="asi-detail-remove">
+              <span class="material-icons-round">delete</span>
+              Удалить
+            </button>
+            <div class="asi-detail-installed hidden" id="asi-detail-installed">
+              <span class="material-icons-round">check_circle</span>
+              Установлен
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toasts -->
+    <div id="toast-container" class="toast-container"></div>
+
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "name": "amazing-launcher",
+  "version": "1.0.1",
+  "description": "Amazing RP SA-MP Launcher",
+  "author": "Egor Mayorow",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.amazing.launcher",
+    "productName": "Amazing Launcher",
+    "copyright": "Copyright © 2026 Egor Mayorow",
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "requestedExecutionLevel": "asInvoker",
+      "artifactName": "${productName}-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "ALauncher-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Amazing Launcher",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico"
+    },
+    "files": [
+      "**/*",
+      "!asi-admin",
+      "!asi-admin/**",
+      "!BUILD.md",
+      "!*.md",
+      "asi-loader.js"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/icon.ico",
+        "to": "assets/icon.ico"
+      }
+    ]
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "discord-rpc": "^4.0.1"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1"
+  }
+}
